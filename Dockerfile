@@ -60,11 +60,11 @@ COPY --from=client-builder /code/client/dist/ /code/client/dist/
 ENV PIPENV_VENV_IN_PROJECT true
 RUN /code/server/thirdparty/Python/bin/python -m pipenv sync --python="/code/server/thirdparty/Python/bin/python"
 
-# CA 証明書を更新(Akebi が証明書をダウンロードする際エラーが出るため)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates tzdata && \
     rm -rf /var/lib/apt/lists/* && \
-    update-ca-certificates 
+    update-ca-certificates
 
 # データベースを必要な場合にアップグレードし、起動
 ENTRYPOINT /code/server/thirdparty/Python/bin/python -m pipenv run aerich upgrade && exec /code/server/.venv/bin/python KonomiTV.py
