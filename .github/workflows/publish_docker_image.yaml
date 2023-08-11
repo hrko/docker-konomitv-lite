@@ -1,12 +1,15 @@
 
 name: Build and Publish Container Image
 
-# タグが作成されたとき or 手動実行
+# リリースが作成されたときに実行
 on:
-  push:
-    tags:
-      - '*'
-  workflow_dispatch:
+  release:
+    types: [published]
+    branches: [master]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_BASENAME: ${{ env.REGISTRY }}/hrko/konomitv-acme
 
 # ジョブの定義
 jobs:
@@ -23,14 +26,14 @@ jobs:
       - name: Login to the Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract Metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/hrko/konomitv-lite
+          images: ${{ env.IMAGE_BASENAME }}
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
@@ -40,3 +43,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Edit Release
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ github.event.release.id }}
+          body: |
+            # ダウンロード
+            このリリースのイメージをプルするには以下のコマンドを実行してください。
+            ```
+            docker pull ${{ env.IMAGE_BASENAME }}:${{ github.event.release.tag_name }}
+            ```
