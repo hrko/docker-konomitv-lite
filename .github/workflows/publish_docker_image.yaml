@@ -8,7 +8,7 @@ on:
     branches: [master]
 
 env:
-  IMAGE_BASENAME: ghcr.io/hrko/konomitv-acme
+  IMAGE_BASENAME: ghcr.io/hrko/konomitv-lite
 
 # ジョブの定義
 jobs:
