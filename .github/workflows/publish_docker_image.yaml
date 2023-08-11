@@ -7,6 +7,7 @@ on:
     types: [published]
     branches: [master]
 
+# イメージ名
 env:
   IMAGE_BASENAME: ghcr.io/hrko/konomitv-lite
 
@@ -42,6 +43,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          
+  edit-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
       - name: Edit Release
         uses: irongut/EditRelease@v1.2.0
         with:
