@@ -9,6 +9,9 @@ KonomiTV の省サイズなコンテナイメージ
 本リポジトリの目的は、ソフトウェアエンコードだけに対応する、
 コンパクトなサイズの KonomiTV のイメージを提供することです。
 
+このイメージをベースにして、独自ドメインの証明書を自動で発行してくれるようにした 
+[docker-konomitv-acme](https://github.com/hrko/docker-konomitv-acme) も提供しています。
+
 ## リリース
 イメージ一覧は[コンテナリポジトリ](https://github.com/hrko/docker-konomitv-lite/pkgs/container/konomitv-lite)をご覧ください。
 
