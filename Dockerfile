@@ -1,4 +1,4 @@
-ARG version="0.7.1"
+ARG version="0.8.0"
 
 # --------------------------------------------------------------------------------------------------------------
 # ソースコードのダウンロードを行うステージ
@@ -35,7 +35,7 @@ RUN cd /tmp && \
 # クライアントをビルドするステージ
 # --------------------------------------------------------------------------------------------------------------
 
-FROM node:18 AS client-builder
+FROM node:18.17.1 AS client-builder
 
 COPY --from=downloader /code/client/ /code/client/
 
@@ -57,8 +57,8 @@ ENV TZ Asia/Tokyo
 COPY --from=downloader /code/server/ /code/server/
 COPY --from=client-builder /code/client/dist/ /code/client/dist/
 
-ENV PIPENV_VENV_IN_PROJECT true
-RUN /code/server/thirdparty/Python/bin/python -m pipenv sync --python="/code/server/thirdparty/Python/bin/python"
+RUN /code/server/thirdparty/Python/bin/python -m poetry env use /code/server/thirdparty/Python/bin/python && \
+    /code/server/thirdparty/Python/bin/python -m poetry install --only main --no-root
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -67,4 +67,4 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     update-ca-certificates
 
 # データベースを必要な場合にアップグレードし、起動
-ENTRYPOINT /code/server/thirdparty/Python/bin/python -m pipenv run aerich upgrade && exec /code/server/.venv/bin/python KonomiTV.py
+ENTRYPOINT /code/server/thirdparty/Python/bin/python -m poetry run aerich upgrade && exec /code/server/.venv/bin/python KonomiTV.py
