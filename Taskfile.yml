@@ -1,0 +1,12 @@
+# https://taskfile.dev
+# コンテナイメージの作者がイメージのテストに使うためのタスクファイルです。
+# 作者のテスト環境固有の設定が含まれているため、そのままでは使えません。
+
+version: '3'
+
+tasks:
+  test:
+    cmds:
+      - sudo docker build -t konomitv-lite:latest {{ .TASKFILE_DIR }}
+      - open https://192-168-20-20.local.konomi.tv:7000/
+      - sudo docker run -it --rm -v {{ .TASKFILE_DIR }}/config.yaml:/code/config.yaml:ro --mount type=tmpfs,destination=/host-rootfs --net=host konomitv-lite:latest
