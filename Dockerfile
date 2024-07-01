@@ -1,4 +1,4 @@
-ARG version="0.9.0"
+ARG version="0.10.1"
 
 # --------------------------------------------------------------------------------------------------------------
 # ソースコードのダウンロードを行うステージ
@@ -66,5 +66,5 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm -rf /var/lib/apt/lists/* && \
     update-ca-certificates
 
-# データベースを必要な場合にアップグレードし、起動
-ENTRYPOINT /code/server/thirdparty/Python/bin/python -m poetry run aerich upgrade && exec /code/server/.venv/bin/python KonomiTV.py
+# KonomiTV サーバーを起動
+ENTRYPOINT /code/server/.venv/bin/python KonomiTV.py
