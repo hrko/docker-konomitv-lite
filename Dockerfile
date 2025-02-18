@@ -1,4 +1,4 @@
-ARG version="0.11.0"
+ARG version="0.12.0"
 
 # --------------------------------------------------------------------------------------------------------------
 # ソースコードのダウンロードを行うステージ
@@ -67,4 +67,4 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     update-ca-certificates
 
 # KonomiTV サーバーを起動
-ENTRYPOINT /code/server/.venv/bin/python KonomiTV.py
+ENTRYPOINT ["/code/server/.venv/bin/python", "KonomiTV.py"]
