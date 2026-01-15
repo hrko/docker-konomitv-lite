@@ -2,12 +2,11 @@
 KonomiTV の省サイズなコンテナイメージ
 
 ## 概要
-[公式のイメージ](https://github.com/tsukumijima/KonomiTV/pkgs/container/konomitv)には様々な環境でハードウェアエンコードに対応するためのライブラリ等が含まれています。
-特に、Nvidia 環境向けに Cuda イメージをベースにしているため、
-イメージのサイズが 1 GB を超えるほど非常に大きくなっています。
+[公式のイメージ](https://github.com/tsukumijima/KonomiTV/pkgs/container/konomitv)には、様々な環境でハードウェアエンコードに対応するためのライブラリや、Twitter GraphQL API を叩くために必要な Google Chrome が含まれています。また、Nvidia 環境向けに Cuda イメージをベースにしているため、イメージのサイズが 1 GB を超えるほど大きくなっています。
 
-本リポジトリの目的は、ソフトウェアエンコードだけに対応する、
-コンパクトなサイズの KonomiTV のイメージを提供することです。
+本リポジトリの目的は、不要な機能を削ぎ落としたコンパクトなサイズの KonomiTV のイメージを提供することです。このイメージでは、以下の機能は利用できません:
+* ハードウェアエンコード
+* Twitter連携
 
 このイメージをベースにして、独自ドメインの証明書を自動で発行してくれるようにした 
 [docker-konomitv-acme](https://github.com/hrko/docker-konomitv-acme) も提供しています。
